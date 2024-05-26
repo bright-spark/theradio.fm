@@ -1,50 +1,61 @@
-// pushengage build+1
-importScripts("https://clientcdn.pushengage.com/sdks/service-worker.js");
+// Import Workbox library from CDN
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/7.0.0/workbox-sw.js');
 
-// This is the "Offline page" service worker
+// Precaching assets
+workbox.precaching.precacheAndRoute([
+    { url: '/manifest.json', revision: '31'},
+    { url: '/favicon.ico', revision: '31' },
+    { url: '/index.html', revision: '31' },
+    { url: '/offline.html', revision: '31' }
+]);
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
+// Caching strategies
+// Cache First for static assets like CSS, JavaScript
+workbox.routing.registerRoute(
+    ({request}) => request.destination === 'style' || request.destination === 'script',
+    new workbox.strategies.CacheFirst({
+        cacheName: 'static-resources',
+    })
+);
 
-const CACHE = "pwabuilder-page";
+// Network First for dynamic or API calls
+workbox.routing.registerRoute(
+    ({url}) => url.pathname.startsWith('/api/'),
+    new workbox.strategies.NetworkFirst({
+        cacheName: 'api-cache',
+        plugins: [
+            new workbox.expiration.ExpirationPlugin({
+                maxEntries: 50,
+                maxAgeSeconds: 5 * 60, // 5 minutes
+            }),
+        ],
+    })
+);
 
-// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
-const offlineFallbackPage = "offline.html";
+// Offline Fallback
+const FALLBACK_HTML_URL = '/offline.html';
+workbox.routing.setCatchHandler(({event}) => {
+    switch (event.request.destination) {
+        case 'document':
+            return caches.match(FALLBACK_HTML_URL);
+            break;
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+        default:
+            return Response.error();
+    }
 });
 
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
-  );
-});
-
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
-
-        if (preloadResp) {
-          return preloadResp;
-        }
-
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
-  }
+// Update and Activate
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== 'static-resources' && cacheName !== 'api-cache') {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
