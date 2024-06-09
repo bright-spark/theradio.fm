@@ -12,28 +12,27 @@
   </script>
   <!-- END Google tag (gtag.js) -->
 
-  <title>YouTube Red Random</title>
+  <title>YouTube Red Pop</title>
   <meta charset="utf-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="YouTube Red Random">
+  <meta name="apple-mobile-web-app-title" content="YouTube Red">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="HandheldFriendly" content="true">
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1.0">
-    <style>
-      html,
-      body,
-      iframe {
-        margin: 0;
-        padding: 0;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        height: 100%;
-        z-index: 999999;
-      }
+  <style>
+    html, body, iframe {
+      margin: 0;
+      padding: 0;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: 100%;
+      z-index: 999999;
+    }
+
     iframe {
       overflow: hidden;
       display: block;
@@ -43,64 +42,79 @@
   </style>
 </head>
 <body>
-  <iframe title="YouTube Video Player" id="playlistiframe"
+  <iframe title="YouTube Video Player" id="playlistiframe" src=""
     allow="web-share; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    type="text/html" frameborder="0" allowfullscreen>
+    type="text/html" allowfullscreen>
   </iframe>
   <script>
     var strings = [
-      "EXIWlRrkjKE",
-      "UO0N7j9yI10",
-      "G7KNmW9a75Y",
-      "Tx1sqYc3qas",
-      "7wDQq9kCnXs",
-      "DpBq9h9N4X0",
-      "lXxQq9kCnXs",
-      "Ah0Ys50CqO8",
-      "LjF9IqvXDjY",
-      "N44lUwwvNFs",
-      "jfioZtZ9iiE",
-      "RO_9LDW4YhM",
-      "ZtD9bQIjE_k",
-      "mj4cD5xn2n0",
-      "BC19kwABFwc",
-      "4RkM-v2i5Ew",
-      "kEDZZin4_eM",
-      "FrIVMoRVTho"
+      "RDCLAK5uy_k8QSlZPzi4R3781ftLrAKefTJJ6x7JrVA",
+      "RDCLAK5uy_lBUKRTgi9-X5hfuH4O0kg_msD5Mxap3iE",
+      "RDCLAK5uy_m2516Cz955UxQM4DgjKPrKeGwAcQ6wj3Q",
+      "RDCLAK5uy_nHl3QTEJsWnqZQU8pzNrBudfrbzr_kLCg",
+      "RDCLAK5uy_lb6CVU6S4uVugLVNTU9WhqfaomWAgnho4",
+      "RDCLAK5uy_mfdqvCAl8wodlx2P2_Ai2gNkiRDAufkkI",
+      "RDCLAK5uy_l7u7RCjtiI_I3m5EgnI-V9yWAgx0RNy1E",
+      "RDCLAK5uy_kmPRjHDECIcuVwnKsx2Ng7fyNgFKWNJFs",
+      "RDCLAK5uy_nE25QmHW2mSEyfGan1RwORJyb0MzZqOpI",
+      "RDCLAK5uy_nBQm8_YpP--R6zU8p3dypKm1QKqzWY6qU",
+      "RDCLAK5uy_kWiJXUNLZM9EyS3GBGznl1ku8_cOos97U",
+      "RDCLAK5uy_k8M88-3MJRUSCbipYWLH5socYNhDI06Sc",
+      "RDCLAK5uy_k-4bBZpMA00LtvrMiVcRNr0caz135-Ydw",
+      "RDCLAK5uy_n7IwbsDhxuCUi5B8YPrv-E8kd6Tej5ujY",
+      "RDCLAK5uy_nfs_t4FUu00E5ED6lveEBBX1VMYe1mFjk",
+      "RDCLAK5uy_l2zLaMIWOqWSePvTSmt49GcuR8460ZR10",
+      "RDCLAK5uy_mVQsicmiGWIirrcMMQO4g7QL3BQKuKCSM",
+      "RDCLAK5uy_n3VXlgOKj6OxuN3TpKEnVBX4qia-_2c1k",
+      "RDCLAK5uy_mYCOXz3Q9Ah8DEgyhLbqT8Vh4LXftRqOo",
+      "RDCLAK5uy_k6PkYWus1Mt-aKrbb0Ne8SkA2BgAk1Yy4",
+      "RDCLAK5uy_nfs_t4FUu00E5ED6lveEBBX1VMYe1mFjk",
+      "RDCLAK5uy_mSpTnu0yGFc7ogsk3y6tzNnLPonqB17AY",
+      "RDCLAK5uy_kumKEaPpcfaAOpnEdpjtp4jyLoiqZdRnU",
+      "RDCLAK5uy_kW-moSFMAFOKAIVYn9IDrZKWEJA3cP9UU",
     ];
+
+    var index = -1;
+
     function getCookie(name) {
       var value = "; " + document.cookie;
       var parts = value.split("; " + name + "=");
       if (parts.length === 2) return parts.pop().split(";").shift();
     }
     function setNextPlaylistID() {
+
       var currentIndex = strings.indexOf(getCookie("playlistID"));
-      if (currentIndex !== -1) {
+      console.log("Current index: " + currentIndex);
+      console.log("Current playlist: " + getCookie("playlistID"));
+      console.log("Next index: " + index);  
+      console.log("Next playlist: " + strings[index]);
+
+      if (currentIndex === -1) {
+        generateRandomPlaylist();
+      }
+      else {
+        
         var nextIndex = (currentIndex + 1) % strings.length;
         var nextPlaylist = strings[nextIndex];
         document.cookie = "playlistID=" + nextPlaylist + "; path=/";
-        var random1Index = Math.floor(Math.random() * strings.length);
-        var randomPlaylist = strings[random1Index];
-        var random2Index = Math.floor(Math.random() * strings.length);
-        var random2Playlist = strings[random2Index];
-        document.cookie = "playlistID=" + randomPlaylist + "; path=/";
-        document.getElementById("playlistiframe").src = "https://www.youtube-nocookie.com/embed/?v=" + nextPlaylist + "&list=RD" + random1Playlist + "&start_radio=1&rv=" + random2Playlist;
+       
+        document.getElementById("playlistiframe").src = "https://www.youtube-nocookie.com/embed/playlist?list=" + nextPlaylist
+       
         console.log("Current index: " + currentIndex);
         console.log("Next index: " + nextIndex);
         console.log("Next playlist: " + nextPlaylist);
-        console.log("Random index 1: " + random1Index);
-        console.log("Random playlist 1: " + random1Playlist);
-        console.log("Random index 2: " + random2Index);
-        console.log("Random playlist 2: " + random2Playlist);
-      } else {
-        generateRandomPlaylist();
       }
     }
     function generateRandomPlaylist() {
       var randomIndex = Math.floor(Math.random() * strings.length);
       var randomPlaylist = strings[randomIndex];
       document.cookie = "playlistID=" + randomPlaylist + "; path=/";
-      document.getElementById("playlistiframe").src = "https://www.youtube-nocookie.com/embed/?v=" + randomPlaylist + "&list=RD" + randomPlaylist + "&start_radio=1&rv=" + randomPlaylist;
+      
+      document.getElementById("playlistiframe").src = "https://www.youtube-nocookie.com/embed/playlist?list=" + randomPlaylist
+      
+      console.log("Random index: " + randomIndex);
+      console.log("Random playlist: " + randomPlaylist);
+      setNextPlaylistID();
     }
     window.addEventListener("load", setNextPlaylistID);
 </script>
